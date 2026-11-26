@@ -1,0 +1,42 @@
+# ===== Secrets =====
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.jks
+
+# ===== Backend (Gradle / Spring Boot) =====
+backend/build/
+backend/.gradle/
+backend/out/
+backend/bin/
+
+# ===== Frontend (Vite / React) =====
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/*.local
+
+# ===== IDE / Editor =====
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/*
+!.vscode/extensions.json
+*.swp
+*~
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== Logs =====
+*.log
+npm-debug.log*
+
+# ===== Claude Code (personal settings) =====
+.claude/settings.local.json

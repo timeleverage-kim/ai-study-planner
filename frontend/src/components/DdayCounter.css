@@ -1,0 +1,314 @@
+.dday {
+  --dd-c1: #8b5cf6;
+  --dd-c2: #6366f1;
+  --dd-surface: rgba(255, 255, 255, 0.72);
+  --dd-field: #fff;
+
+  width: min(560px, 100%);
+  margin: 8px auto 48px;
+  padding: 0 16px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  .dday {
+    --dd-surface: rgba(31, 32, 40, 0.72);
+    --dd-field: #1f2028;
+  }
+}
+
+/* ---------- Featured card ---------- */
+.dday-card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  padding: 32px 24px 24px;
+  border-radius: 24px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--dd-c1), var(--dd-c2));
+  box-shadow: 0 20px 40px -16px color-mix(in srgb, var(--dd-c2) 70%, transparent);
+  transition: background 0.4s, box-shadow 0.4s;
+}
+
+.dday-card.is-soon { --dd-c1: #f59e0b; --dd-c2: #f97316; }
+.dday-card.is-urgent { --dd-c1: #f43f5e; --dd-c2: #e11d48; }
+.dday-card.is-today { --dd-c1: #ec4899; --dd-c2: #f59e0b; }
+.dday-card.is-past { --dd-c1: #64748b; --dd-c2: #475569; }
+
+.dday-glow {
+  position: absolute;
+  inset: -40% -20% auto auto;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.35), transparent 70%);
+  z-index: -1;
+  animation: dday-float 8s ease-in-out infinite;
+}
+
+@keyframes dday-float {
+  50% { transform: translate(-40px, 30px); }
+}
+
+.dday-name {
+  font-size: 16px;
+  font-weight: 600;
+  opacity: 0.9;
+  letter-spacing: 0.02em;
+}
+
+.dday-big {
+  margin: 4px 0 2px;
+  font-size: clamp(56px, 14vw, 88px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.dday-card.is-today .dday-big {
+  animation: dday-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes dday-pulse {
+  50% { transform: scale(1.06); }
+}
+
+.dday-date {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+.dday-clock {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin: 20px 0 16px;
+}
+
+.dday-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 4px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(6px);
+}
+
+.dday-unit-value {
+  font-family: var(--mono);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+
+.dday-unit-label {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.dday-progress {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+  overflow: hidden;
+  margin-top: 16px;
+}
+
+.dday-clock + .dday-progress {
+  margin-top: 0;
+}
+
+.dday-progress-bar {
+  height: 100%;
+  border-radius: inherit;
+  background: #fff;
+  transition: width 1s linear;
+}
+
+.dday-msg {
+  margin-top: 14px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Empty state */
+.dday-empty {
+  color: var(--text);
+  background: var(--accent-bg);
+  border: 2px dashed var(--accent-border);
+  box-shadow: none;
+}
+
+.dday-empty p:first-of-type {
+  color: var(--text-h);
+  font-weight: 600;
+}
+
+.dday-empty-icon {
+  display: block;
+  font-size: 40px;
+  margin-bottom: 8px;
+}
+
+.dday-sub {
+  font-size: 14px;
+}
+
+/* ---------- Add form ---------- */
+.dday-form {
+  display: flex;
+  gap: 8px;
+}
+
+.dday-form input {
+  min-width: 0;
+  padding: 10px 12px;
+  font: inherit;
+  font-size: 15px;
+  color: var(--text-h);
+  background: var(--dd-field);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.dday-form input[type='text'] {
+  flex: 1;
+}
+
+.dday-form input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+.dday-form button {
+  padding: 10px 18px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.15s, opacity 0.2s;
+}
+
+.dday-form button:hover:not(:disabled) { transform: translateY(-1px); }
+.dday-form button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+@media (max-width: 480px) {
+  .dday-form { flex-wrap: wrap; }
+  .dday-form input[type='text'] { flex-basis: 100%; }
+  .dday-form input[type='date'] { flex: 1; }
+}
+
+/* ---------- Exam list ---------- */
+.dday-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dday-item {
+  --chip: var(--accent);
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--dd-surface);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.dday-item.is-soon { --chip: #f97316; }
+.dday-item.is-urgent, .dday-item.is-today { --chip: #e11d48; }
+.dday-item.is-past { --chip: #94a3b8; opacity: 0.7; }
+
+.dday-item:hover { box-shadow: var(--shadow); }
+.dday-item.is-active { border-color: var(--chip); }
+
+.dday-item-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.dday-chip {
+  flex-shrink: 0;
+  min-width: 64px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  color: var(--chip);
+  background: color-mix(in srgb, var(--chip) 14%, transparent);
+}
+
+.dday-item-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.dday-item-date {
+  flex-shrink: 0;
+  font-size: 13px;
+}
+
+@media (max-width: 480px) {
+  .dday-item-date { display: none; }
+}
+
+.dday-remove {
+  width: 36px;
+  height: 36px;
+  margin-right: 6px;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--text);
+  background: none;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.2s, background 0.2s, color 0.2s;
+}
+
+.dday-remove:hover {
+  opacity: 1;
+  color: #e11d48;
+  background: rgba(225, 29, 72, 0.1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dday-glow,
+  .dday-card.is-today .dday-big { animation: none; }
+}
