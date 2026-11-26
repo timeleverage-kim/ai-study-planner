@@ -35,8 +35,27 @@
 }
 
 .dday-card.is-soon { --dd-c1: #f59e0b; --dd-c2: #f97316; }
-.dday-card.is-urgent { --dd-c1: #f43f5e; --dd-c2: #e11d48; }
-.dday-card.is-today { --dd-c1: #ec4899; --dd-c2: #f59e0b; }
+.dday-card.is-urgent,
+.dday-card.is-today { --dd-c1: #ef4444; --dd-c2: #dc2626; }
+
+/* D-7 이하: 카드가 빨간색으로 점멸 */
+.dday-card.is-urgent,
+.dday-card.is-today {
+  animation: dday-blink-card 1s ease-in-out infinite;
+}
+
+@keyframes dday-blink-card {
+  0%, 100% {
+    filter: brightness(1);
+    box-shadow: 0 20px 40px -16px rgba(220, 38, 38, 0.7);
+  }
+  50% {
+    filter: brightness(1.25) saturate(1.2);
+    box-shadow:
+      0 0 0 4px rgba(239, 68, 68, 0.45),
+      0 0 36px 6px rgba(239, 68, 68, 0.65);
+  }
+}
 .dday-card.is-past { --dd-c1: #64748b; --dd-c2: #475569; }
 
 .dday-glow {
@@ -233,7 +252,21 @@
 }
 
 .dday-item.is-soon { --chip: #f97316; }
-.dday-item.is-urgent, .dday-item.is-today { --chip: #e11d48; }
+.dday-item.is-urgent, .dday-item.is-today { --chip: #dc2626; }
+
+/* D-7 이하: 목록 칩도 빨간색으로 점멸 */
+.dday-item.is-urgent .dday-chip,
+.dday-item.is-today .dday-chip {
+  animation: dday-blink-chip 1s ease-in-out infinite;
+}
+
+@keyframes dday-blink-chip {
+  50% {
+    color: #fff;
+    background: #dc2626;
+    box-shadow: 0 0 10px rgba(220, 38, 38, 0.6);
+  }
+}
 .dday-item.is-past { --chip: #94a3b8; opacity: 0.7; }
 
 .dday-item:hover { box-shadow: var(--shadow); }
@@ -310,5 +343,9 @@
 
 @media (prefers-reduced-motion: reduce) {
   .dday-glow,
-  .dday-card.is-today .dday-big { animation: none; }
+  .dday-card.is-today .dday-big,
+  .dday-card.is-urgent,
+  .dday-card.is-today,
+  .dday-item.is-urgent .dday-chip,
+  .dday-item.is-today .dday-chip { animation: none; }
 }
